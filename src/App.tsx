@@ -9,25 +9,25 @@ const Settings = lazy(() => import("./pages/Settings"));
 
 // Loading fallback component
 function LoadingFallback() {
-  return (
-    <div style={{ padding: "20px", textAlign: "center" }}>
-      <p>Loading...</p>
-    </div>
-  );
+    return (
+        <div style={{ padding: "20px", textAlign: "center" }}>
+            <p>Loading...</p>
+        </div>
+    );
 }
 
 function App() {
-  return (
-    <BrowserRouter>
-      <Suspense fallback={<LoadingFallback />}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/settings" element={<Settings />} />
-        </Routes>
-      </Suspense>
-    </BrowserRouter>
-  );
+    return (
+        <BrowserRouter>
+            <Suspense fallback={<LoadingFallback />}>
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/settings" element={<Settings />} />
+                </Routes>
+            </Suspense>
+        </BrowserRouter>
+    );
 }
 
 export default App;
