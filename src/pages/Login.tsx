@@ -1,13 +1,15 @@
-import {useState, useRef} from "react";
+import {useRef} from "react";
 import {invoke} from "@tauri-apps/api/core";
 
 function Login() {
-    const [greetMsg, setGreetMsg] = useState("");
     const nameInputRef = useRef<HTMLInputElement>(null);
-
-    async function greet() {
-        const name = nameInputRef.current?.value || "";
-        setGreetMsg(await invoke("greet", {name}));
+    async function submit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        const token = nameInputRef.current?.value || "";
+        const response = await invoke<string>("set_token", {token});
+        if (response) {
+            console.error(response);
+        }
     }
 
     return (
@@ -18,7 +20,7 @@ function Login() {
                     className="bg-gray-700 rounded-3xl p-2 flex justify-center items-center space-x-4 outline-gray-500 outline-1"
                     onSubmit={(e) => {
                         e.preventDefault();
-                        greet();
+                        submit(e);
                     }}
                 >
                     <input
@@ -32,7 +34,6 @@ function Login() {
                             text-gray-200"> Confirm
                     </button>
                 </form>
-                <h3 className="absolute text-green-500 py-4">{greetMsg}</h3>
             </div>
         </main>
     );
