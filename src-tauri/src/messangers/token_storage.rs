@@ -38,7 +38,6 @@ pub async fn load_discord_token_from_file() -> std::io::Result<Option<String>> {
         }
         Ok(_) => Ok(None),
         Err(e) => {
-            error!("Failed to parse tokens file: {}", e);
             Err(std::io::Error::new(
                 std::io::ErrorKind::InvalidData,
                 format!("Parse error: {}", e),

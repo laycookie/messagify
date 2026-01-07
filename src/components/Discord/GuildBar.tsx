@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import type { Guild } from "../../types/discord";
 import { invoke } from "@tauri-apps/api/core";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Guild = () => {
   const [guilds, setGuilds] = useState<Array<Guild>>([]);
@@ -17,12 +17,10 @@ const Guild = () => {
         console.error("Failed to fetch guilds:", e);
         setGuilds([]);
       });
-      console.log(navigate);
+    console.log(navigate);
   }, []);
 
-  const renderGuildButton = (
-    guild: Guild
-  ) => {
+  const renderGuildButton = (guild: Guild) => {
     const isSelected = guild.id === selectedId;
     const iconUrl = guild.icon
       ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=64`
@@ -42,9 +40,10 @@ const Guild = () => {
           title={guild.name}
           aria-label={guild.name}
           aria-pressed={isSelected}
-          onClick={() => {setSelectedId(guild.id) 
+          onClick={() => {
+            setSelectedId(guild.id);
 
-            navigate(`/discord/guild/${guild.id}`)
+            navigate(`/discord/guild/${guild.id}`);
           }}
           className={[
             "w-12 h-12 rounded-2xl flex items-center justify-center cursor-pointer transition-all outline-none overflow-hidden",
@@ -72,9 +71,12 @@ const Guild = () => {
   };
 
   return (
-    <div className="w-[72px] bg-gray-900 flex flex-col items-center py-3 space-y-2">
+    <div className="w-[72px] h-screen bg-gray-900 flex flex-col items-center py-3 space-y-2 overflow-y-auto">
       {/* Home Button */}
-      <div className="relative w-full flex justify-center" onClick={() => navigate("/discord/user")}>
+      <div
+        className="relative w-full flex justify-center shrink-0"
+        onClick={() => navigate("/discord/user")}
+      >
         <div
           className={[
             "absolute left-0 top-1/2 -translate-y-1/2 rounded-r transition-all",
@@ -110,7 +112,7 @@ const Guild = () => {
       {/* Guild Buttons */}
       {guilds.map(renderGuildButton)}
 
-      <div className="pt-1">
+      <div className="pt-1 shrink-0">
         <button
           type="button"
           aria-label="Add Server"

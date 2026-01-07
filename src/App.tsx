@@ -1,10 +1,11 @@
 import { Suspense, lazy } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ChannelBarController from "./components/Discord/ChannelBar/ChannelBarController";
+import ChatController from "./components/Discord/MainChatController";
 
 // Lazy load components
 const Login = lazy(() => import("./pages/Login"));
 const DiscordLayout = lazy(() => import("./layout/Discord/DiscordLayout"));
-const ProtectedRoutes = lazy(() => import("./contexts/ProtectedRoutes"));
 const Accounts = lazy(() => import("./pages/Accounts"));
 // Loading fallback component
 function LoadingFallback() {
@@ -22,9 +23,25 @@ function App() {
         <Routes>
           <Route path="/" element={<Accounts />} />
           <Route path="/login" element={<Login />} />
-          <Route element={<ProtectedRoutes />}>
-            <Route path="/discord/user/:userId?" element={<DiscordLayout />} />
-            <Route path="/discord/guild/:guildId?/:channelId?" element={<DiscordLayout />} />
+          <Route path="/discord" element={<DiscordLayout />}>
+            <Route
+              path="/discord/user/:userChannelId?"
+              element={
+                <>
+                  <ChannelBarController />
+                  <ChatController />
+                </>
+              }
+            />
+            <Route
+              path="/discord/guild/:guildId?/:channelId?"
+              element={
+                <>
+                  <ChannelBarController />
+                  <ChatController />
+                </>
+              }
+            />
           </Route>
         </Routes>
       </Suspense>

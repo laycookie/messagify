@@ -5,7 +5,6 @@ import { invoke } from "@tauri-apps/api/core";
 function Login() {
   const nameInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
-
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const token = nameInputRef.current?.value || "";

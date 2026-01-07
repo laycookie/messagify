@@ -44,10 +44,28 @@ export interface Guild {
   // safety_alerts_channel_id: string | null;  // Snowflake
   // incidents_data: IncidentsData | null;
 }
+// Discord API Channel Type enum
+// https://discord.com/developers/docs/resources/channel#channel-object-channel-types
+export enum ChannelType {
+  GUILD_TEXT = 0,
+  DM = 1,
+  GUILD_VOICE = 2,
+  GROUP_DM = 3,
+  GUILD_CATEGORY = 4,
+  GUILD_ANNOUNCEMENT = 5,
+  ANNOUNCEMENT_THREAD = 10,
+  PUBLIC_THREAD = 11,
+  PRIVATE_THREAD = 12,
+  GUILD_STAGE_VOICE = 13,
+  GUILD_DIRECTORY = 14,
+  GUILD_FORUM = 15,
+  GUILD_MEDIA = 16,
+}
+
 export interface Channel {
   id: string;
   name: string;
-  type: number;
+  type: ChannelType;
   position: number;
   // permission_overwrites: PermissionOverwrite[];
   parent_id: string | null;
@@ -68,8 +86,17 @@ export interface DiscordUserLite {
 // We keep this minimal on purpose and parse in TypeScript.
 export interface DmChannel {
   id: string;
-  type: number; // 1 = DM, 3 = group DM
+  type: ChannelType; // ChannelType.DM (1) or ChannelType.GROUP_DM (3)
   name?: string | null;
   last_message_id?: string | null;
   recipients?: DiscordUserLite[];
+}
+
+// Discord messages returned from GET /channels/{channel.id}/messages
+export interface DiscordMessage {
+  id: string;
+  content: string;
+  timestamp: string;
+  edited_timestamp?: string | null;
+  author: DiscordUserLite;
 }
